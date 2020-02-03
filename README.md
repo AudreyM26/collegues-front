@@ -1,6 +1,9 @@
 [![Build Status](https://travis-ci.org/AudreyM26/collegues-front.svg?branch=master)](https://travis-ci.org/AudreyM26/collegues-front)
 
 ## lien du site
+https://audreym26.github.io/collegues-front/
+
+## lien github
 https://github.com/AudreyM26/collegues-front
 
 # ColleguesFront
