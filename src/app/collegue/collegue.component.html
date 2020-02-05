@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-12 col-md-3"><img src="{{col.photoUrl}}" alt="Logo" width="100%" /></div>
+  <div class="col-12 col-md-9">
+    <div class="row">
+      <div class="col-4">Matricule</div>
+      <div class="col-8">{{col.matricule}}</div>
+    </div>
+    <div class="row">
+      <div class="col-4">Nom</div>
+      <div class="col-8">{{col.nom|uppercase}}</div>
+    </div>
+    <div class="row">
+      <div class="col-4">Prénoms</div>
+      <div class="col-8">{{col.prenoms}}</div>
+    </div>
+    <div class="row">
+      <div class="col-4">Date de naissance</div>
+      <div class="col-8">{{col.dateDeNaissance|date:'mediumDate'}}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-4">Email</div>
+      <div class="col-8">
+        <div *ngIf="!modeEdit; else emailInput">{{col.email}}</div>
+      </div>
+    </div>
+    <div *ngIf="!modeEdit; else urlPhotoInput"></div>
+
+    <ng-template #emailInput>
+      <input type="text" [value]="col.email" class="form-control">
+    </ng-template>
+
+    <ng-template #urlPhotoInput>
+      <div class="row">
+        <div class="col-4">urlPhoto</div>
+      <div class="col-8"><input type="text" [value]="col.photoUrl" class="form-control"></div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div class="row pt-4">
+  <div class="col-12 col-md-5 offset-md-3 pl-0">
+    <div *ngIf="!modeEdit"><a href="javascript:void(0)" (click)="createCol()" class="btn btn-link">Créer un nouveau collègue</a></div>
+  </div>
+  <div class="col-md-1">
+    <div *ngIf="!modeEdit; else validButton"><input type="button" class="btn btn-outline-secondary" value="Modifier" (click)="modifyCol()"></div>
+  </div>
+
+  <ng-template #validButton>
+    <input type="button" class="btn btn-success" value="Valider" (click)="validForm()">
+  </ng-template>
+</div>

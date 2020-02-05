@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-12 col-md-3">Rechercher par nom : </div>
+  <div class="col-12 col-md-4"><input type="text" class="form-control" id="search" [value]="nameSearch" #saisie
+      (change)="nameChange(saisie.value)"></div>
+  <div class="col-12 col-md-2"><input type="button" class="btn btn-outline-secondary" value="Rechercher"
+      (click)="searchByName()"></div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-12">
+    <ul>
+      <li *ngFor="let m of listeMatricules">
+        {{m}}
+      </li>
+    </ul>
+  </div>
+</div>
