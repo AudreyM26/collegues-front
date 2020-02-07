@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { tabMatricules } from '../mock/matricules.mock';
+import { DataService } from '../services/data.service';
 import { Collegue } from '../models/Collegue';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recherche-collegue-par-nom',
@@ -10,13 +12,12 @@ import { Collegue } from '../models/Collegue';
 export class RechercheCollegueParNomComponent implements OnInit {
 
   nameSearch = '';
-  listeMatricules : string[];
+  listeMatricules: Observable<string[]>;
 
-  listeCols: Collegue[];
-
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+
   }
 
   nameChange(nameInput: string) {
@@ -25,26 +26,15 @@ export class RechercheCollegueParNomComponent implements OnInit {
 
   searchByName() {
     console.log('liste');
-    this.listeMatricules = tabMatricules;
 
-    /*
-    new Promise(resolve => {
-      // promesse résolue après 1s
-      window.setTimeout(() => {
+    this.listeMatricules = this.dataService.rechercherParNom(this.nameSearch);
+    console.log(this.listeMatricules);
+  }
 
-        console.log(this.tabCollegues);
-        this.tabCollegues.forEach(col => {
-          //if (col.nom === this.nameSearch) {
-            //this.listeCols.push(col);
-          //}
-          resolve(col);
-        });
-
-      }
-        , 2000);
-    }).then((data: string) => {
-      console.log(data);
-    });*/
-
+  detailsCollegue(matricule: string) {
+    this.dataService.rechercherParMatricule(matricule).subscribe(
+      () => {},
+      error => console.log(error)
+    );
   }
 }

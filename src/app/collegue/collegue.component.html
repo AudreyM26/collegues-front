@@ -1,52 +1,85 @@
-<div class="row">
-  <div class="col-12 col-md-3"><img src="{{col.photoUrl}}" alt="Logo" width="100%" /></div>
-  <div class="col-12 col-md-9">
-    <div class="row">
-      <div class="col-4">Matricule</div>
-      <div class="col-8">{{col.matricule}}</div>
-    </div>
-    <div class="row">
-      <div class="col-4">Nom</div>
-      <div class="col-8">{{col.nom|uppercase}}</div>
-    </div>
-    <div class="row">
-      <div class="col-4">Prénoms</div>
-      <div class="col-8">{{col.prenoms}}</div>
-    </div>
-    <div class="row">
-      <div class="col-4">Date de naissance</div>
-      <div class="col-8">{{col.dateDeNaissance|date:'mediumDate'}}</div>
-    </div>
-
-    <div class="row">
-      <div class="col-4">Email</div>
-      <div class="col-8">
-        <div *ngIf="!modeEdit; else emailInput">{{col.email}}</div>
+<form #etatForm="ngForm">
+  <div class="row">
+    <div class="col-12 col-md-3"><img src="{{col.photoUrl}}" alt="Logo" width="100%" /></div>
+    <div class="col-12 col-md-9">
+      <div class="row" *ngIf="!modeCreate">
+        <div class="col-4">Matricule</div>
+        <div class="col-8">{{col.matricule}}</div>
       </div>
-    </div>
-    <div *ngIf="!modeEdit; else urlPhotoInput"></div>
-
-    <ng-template #emailInput>
-      <input type="text" [value]="col.email" class="form-control">
-    </ng-template>
-
-    <ng-template #urlPhotoInput>
       <div class="row">
-        <div class="col-4">urlPhoto</div>
-      <div class="col-8"><input type="text" [value]="col.photoUrl" class="form-control"></div>
+        <div class="col-4">Nom</div>
+        <div class="col-8"><span *ngIf="!modeCreate; else nomInput">{{col.nom}}</span></div>
       </div>
-    </ng-template>
-  </div>
-</div>
-<div class="row pt-4">
-  <div class="col-12 col-md-5 offset-md-3 pl-0">
-    <div *ngIf="!modeEdit"><a href="javascript:void(0)" (click)="createCol()" class="btn btn-link">Créer un nouveau collègue</a></div>
-  </div>
-  <div class="col-md-1">
-    <div *ngIf="!modeEdit; else validButton"><input type="button" class="btn btn-outline-secondary" value="Modifier" (click)="modifyCol()"></div>
+      <div class="row">
+        <div class="col-4">Prénoms</div>
+        <div class="col-8"><span *ngIf="!modeCreate; else prenomInput">{{col.prenoms}}</span></div>
+
+      </div>
+      <div class="row">
+        <div class="col-4">Date de naissance</div>
+        <div class="col-8"><span *ngIf="!modeCreate; else dateInput">{{col.dateDeNaissance|date:'mediumDate'}}</span></div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">Email</div>
+        <div class="col-8"><span *ngIf="!modeEdit && !modeCreate; else emailInput">{{col.email}}</span></div>
+      </div>
+
+      <div *ngIf="!modeEdit && !modeCreate; else urlPhotoInput"></div>
+
+      <ng-template #nomInput>
+        <input type="text" name="nom" [(ngModel)]="col.nom" class="form-control" required #etatNom="ngModel"/>
+        <p *ngIf="etatNom.invalid && etatNom.dirty">Vous devez saisir un nom d'au moins 3 caractères</p>
+      </ng-template>
+
+      <ng-template #prenomInput>
+        <input type="text" name="prenoms" [(ngModel)]="col.prenoms" class="form-control" required #etatPrenoms="ngModel"/>
+        <p *ngIf="etatPrenoms.invalid && etatPrenoms.dirty">Vous devez saisir un prénom d'au moins 3 caractères</p>
+      </ng-template>
+
+      <ng-template #dateInput>
+        <input type="date" name="date" [(ngModel)]="col.dateDeNaissance"  class="form-control" required #etatDate="ngModel"/>
+         <p *ngIf="etatDate.invalid && etatDate.dirty">Vous devez saisir une date</p>
+      </ng-template>
+
+      <ng-template #emailInput>
+        <input type="text" name="email" [(ngModel)]="col.email" class="form-control" required #etatEmail="ngModel" appEmailValidator />
+        <p *ngIf="etatEmail.invalid && etatEmail.dirty">Vous devez saisir un email valide</p>
+      </ng-template>
+
+      <ng-template #urlPhotoInput>
+        <div class="row">
+          <div class="col-4">urlPhoto</div>
+          <div class="col-8">
+            <input type="text" appUrlValidator name="photoUrl" [(ngModel)]="col.photoUrl" class="form-control" required minlength="7" #etatPhoto="ngModel">
+            <p *ngIf="etatPhoto.invalid && etatPhoto.dirty">Vous devez saisir une url de photo d'au moins 7 caractères commençant par 'http'</p>
+          </div>
+        </div>
+      </ng-template>
+    </div>
   </div>
 
-  <ng-template #validButton>
-    <input type="button" class="btn btn-success" value="Valider" (click)="validForm()">
-  </ng-template>
-</div>
+  <div class="row pt-4">
+    <div class="col-12 col-md-5  pl-0" >
+      <div *ngIf="!modeEdit && !modeCreate"><a href="javascript:void(0)" (click)="createCol()" class="btn btn-link">Créer un nouveau collègue</a></div>
+    </div>
+    <div class="col-md-1 offset-md-2">
+      <!--<div *ngIf="this.col.matricule!=null"> </div>-->
+      <div *ngIf="!modeEdit && !modeCreate; else validButton"><input type="button" class="btn btn-outline-secondary" value="Modifier"
+          (click)="modifyCol()"></div>
+    </div>
+
+    <ng-template #validButton>
+      <button  type="button" name="creer" class="btn btn-success" (click)="validForm(etatForm)" [disabled]="etatForm.invalid">{{buttonText}}</button>
+    </ng-template>
+
+  </div>
+
+  <div *ngIf="messageErreur" class="alert alert-danger" role="alert">
+    {{messageErreur}}
+  </div>
+
+  <div *ngIf="messageOk" class="alert alert-success" role="alert">
+    {{messageOk}}
+  </div>
+</form>

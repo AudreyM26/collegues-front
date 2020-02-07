@@ -71,6 +71,10 @@
       true,
       "single"
     ],
+    "variable-name": [
+      true,
+      "allow-leading-underscore"
+    ],
     "trailing-comma": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
