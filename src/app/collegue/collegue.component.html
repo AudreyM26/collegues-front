@@ -43,7 +43,7 @@
       </ng-template>
 
       <ng-template #emailInput>
-        <input type="text" name="email" [(ngModel)]="col.email" class="form-control" required #etatEmail="ngModel" appEmailValidator />
+        <input type="text" name="email" [(ngModel)]="col.email" class="form-control" required #etatEmail="ngModel" />
         <p *ngIf="etatEmail.invalid && etatEmail.dirty">Vous devez saisir un email valide</p>
       </ng-template>
 

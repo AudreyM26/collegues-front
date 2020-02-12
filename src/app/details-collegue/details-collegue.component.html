@@ -1,0 +1,30 @@
+
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-12 col-md-3"><img src="{{collegueDetails.photoUrl}}" alt="Logo" width="100%" /></div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-4">Matricule</div>
+        <div class="col-8">{{collegueDetails.matricule}}</div>
+      </div>
+      <div class="row">
+        <div class="col-4">Nom</div>
+        <div class="col-8">{{collegueDetails.nom}}</div>
+      </div>
+      <div class="row">
+        <div class="col-4">Prénoms</div>
+        <div class="col-8">{{collegueDetails.prenoms}}</div>
+
+      </div>
+      <div class="row">
+        <div class="col-4">Date de naissance</div>
+        <div class="col-8">{{collegueDetails.dateDeNaissance|date:'mediumDate'}}</div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">Email</div>
+        <div class="col-8">{{collegueDetails.email}}</div>
+      </div>
+    </div>
+  </div>
+</div>

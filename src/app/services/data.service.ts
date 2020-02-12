@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 // en développement, URL_BACKEND = 'http://localhost:4200'
 // en mode production, URL_BACKEND = 'http://audrey-collegues-api.herokuapp.com/collegues'
 import { HttpHeaders } from '@angular/common/http';
+import { ColleguePhoto } from '../models/ColleguePhoto';
 const urlCollegues = environment.backendUrl;
 
 const httpOptions = {
@@ -41,6 +42,7 @@ export class DataService {
   }
 
   creerCollegue(collegueRecu: Collegue): Observable<Collegue> {
+    console.log(collegueRecu);
     return this.httpClient.post<Collegue>(urlCollegues, JSON.stringify(collegueRecu) , httpOptions);
   }
 
@@ -53,4 +55,7 @@ export class DataService {
     return this.httpClient.get<boolean>(`${urlCollegues}?email=${email}`);
   }
 
+  listerPhotosCollegues(): Observable<ColleguePhoto[]> {
+    return this.httpClient.get<ColleguePhoto[]>(`${urlCollegues}/photos`);
+  }
 }
