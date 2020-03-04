@@ -3,6 +3,7 @@ import { collegueMock } from './mock/collegues.mock';
 import { Collegue } from './models/Collegue';
 import { RechercheCollegueParNomComponent } from './recherche-collegue-par-nom/recherche-collegue-par-nom.component';
 import { DataService } from './services/data.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-root',

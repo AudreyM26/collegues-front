@@ -7,7 +7,7 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { Collegue } from '../models/Collegue';
 import { DataService } from '../services/data.service';
 import { DatePipe } from '@angular/common';
-import { FormControl } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
@@ -46,6 +46,7 @@ export class CollegueComponent implements OnInit {
         console.log('collegue reçu', collegueDetail);
       }
     );
+    console.log(this.col.photoUrl);
   }
 
   modifyCol() {
@@ -60,17 +61,19 @@ export class CollegueComponent implements OnInit {
     console.log('Création d\'un nouveau collègue');
     this.modeCreate = true;
     this.modeEdit = false;
+    this.newCollegue.photoUrl = 'https://previews.123rf.com/images/kritchanut/kritchanut1405/kritchanut140500053/28162597-homme-ic%C3%B4ne-silhouette-portrait.jpg';
     this.col = this.newCollegue;
     this.buttonText = 'Créer';
   }
 
-  validForm(etatForm: FormControl) {
+  validForm(etatForm: NgForm) {
       if (this.modeCreate) {
         console.log(JSON.stringify(this.col));
         this.dataService.creerCollegue(this.col).subscribe((data: Collegue) => {
           // console.log(data);
           this.messageOk = 'Super ! Le collègue a bien été créé';
           etatForm.reset();
+          this.newCollegue = new Collegue();
         }, (error: string) => {
           this.messageErreur = `Le collègue n'a pu être créé :: ${error}`;
           console.log('error', error);
